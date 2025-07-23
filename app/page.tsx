@@ -29,8 +29,8 @@ const VideoControlsBar: FC<VideoControlsBarProps> = ({ className }) => {
         className || ""
       }`}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-center sm:justify-start space-x-3">
           <Button
             size="sm"
             variant="ghost"
@@ -70,7 +70,7 @@ const VideoControlsBar: FC<VideoControlsBarProps> = ({ className }) => {
           >
             <SkipForward className="w-4 h-4" />
           </Button>
-          <div className="text-white text-sm font-medium space-x-2">
+          <div className="text-white text-sm font-medium space-x-2 mt-2 sm:mt-0">
             03:12:37 (15-Jun-2025)
             <span className="ml-2">1x</span>
             <CirclePlay className="inline-block w-4 h-4 ml-2 text-white" />
@@ -87,7 +87,7 @@ export default function Dashboard() {
       <Navbar />
 
       {/* Main Content Area */}
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         <IncidentPlayer />
         <IncidentList />
       </div>

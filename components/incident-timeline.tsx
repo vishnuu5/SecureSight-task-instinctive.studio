@@ -31,17 +31,17 @@ const getIncidentIcon = (type: string) => {
 const getIncidentColor = (type: string) => {
   switch (type) {
     case "Gun Threat":
-      return "#450A0A"; // Red
+      return "#450A0A";
     case "Unauthorised Access":
-      return "#431407"; // Orange
+      return "#431407";
     case "Face Recognised":
-      return "#172554"; // Blue
+      return "#172554";
     case "Traffic Congestion":
-      return "#042F2E"; // Green
+      return "#042F2E";
     case "Multiple Events":
-      return "#1C1917"; // Purple
+      return "#1C1917";
     default:
-      return "#6b7280"; // Gray
+      return "#6b7280";
   }
 };
 
@@ -67,9 +67,8 @@ export function IncidentTimeline() {
     }
   };
 
-  // Generate 24-hour timeline (showing 17 hours as in the image)
   const hours = Array.from({ length: 17 }, (_, i) => i);
-  const timelineWidth = 100; // Use percentage for responsive design
+  const timelineWidth = 100;
 
   const getIncidentPosition = (startHour: number, startMinute = 0) => {
     const totalHours = startHour + startMinute / 60;
@@ -85,7 +84,7 @@ export function IncidentTimeline() {
     const startTotal = startHour + startMinute / 60;
     const endTotal = endHour + endMinute / 60;
     const duration = endTotal - startTotal;
-    return Math.max((duration / 16) * timelineWidth, 3); // Minimum 3% width
+    return Math.max((duration / 16) * timelineWidth, 3);
   };
 
   const cameras = ["Camera - 01", "Camera - 02", "Camera - 03"];
@@ -303,143 +302,124 @@ export function IncidentTimeline() {
   const getLayerPosition = (layer: string) => {
     switch (layer) {
       case "top":
-        return "top-0 h-5"; // Top layer, fixed height
+        return "top-0 h-5";
       case "bottom":
-        return "top-6 h-5"; // Lower layer with spacing
+        return "top-6 h-5";
       default:
-        return "top-3 h-5"; // Middle layer with padding
+        return "top-3 h-5";
     }
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden m-5">
-      {/* Timeline Header */}
-      <div className="flex">
-        <div className="w-48 p-4 ml-5">
-          <h3 className="text-white font-medium mb-3 text-sm">Camera List</h3>
-        </div>
-        <div className="flex-1 p-4 border-l border-amber-800/30">
-          {/* Time ruler with small tick marks */}
-          <div className="relative mb-2">
-            <div className="flex justify-between text-xs text-white px-2 mb-1">
-              {hours.map((hour) => (
-                <div key={hour} className="text-center min-w-0">
-                  {formatHour(hour)}
-                </div>
-              ))}
-            </div>
-            {/* Small tick marks between hours */}
-            <div className="relative h-2">
-              {hours.map((hour) => (
-                <div key={hour}>
-                  {/* Main hour line */}
-                  <div
-                    className="absolute top-0 w-px h-2 bg-white"
-                    style={{ left: `${(hour / 16) * 100}%` }}
-                  />
-                  {/* Small tick marks (4 per hour) */}
-                  {hour < 16 &&
-                    Array.from({ length: 4 }).map((_, i) => (
-                      <div
-                        key={`${hour}-${i}`}
-                        className="absolute top-0 w-px h-1 bg-white"
-                        style={{
-                          left: `${((hour + (i + 1) * 0.25) / 16) * 100}%`,
-                        }}
-                      />
-                    ))}
-                </div>
-              ))}
-            </div>
+    <div className="bg-gray-900 rounded-lg shadow-lg overflow-x-auto m-5">
+      <div className="min-w-[600px] md:min-w-full">
+        <div className="flex flex-col md:flex-row">
+          <div className="md:w-48 p-4 ml-5">
+            <h3 className="text-white font-medium mb-3 text-sm">Camera List</h3>
           </div>
-          {/* Current time indicator with time label */}
-          <div className="relative">
-            <div
-              className="absolute -top-6 transform -translate-x-1/2 text-black text-xs font-medium bg-yellow-400 rounded-lg p-1"
-              style={{ left: "20%" }}
-            >
-              03:12:37s
-            </div>
-            <div
-              className="absolute top-0 w-0.5 h-56 bg-yellow-400 z-20"
-              style={{ left: "20%" }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Camera Rows */}
-      <div className="space-y-2 px-4 pb-4">
-        {cameras.map((camera, cameraIndex) => {
-          const cameraIncidents = createSampleIncidents(camera, cameraIndex);
-          return (
-            <div key={camera} className="flex">
-              {/* Camera row - only Camera-01 has background */}
-              <div
-                className={`flex w-full h-14 relative overflow-hidden ${
-                  cameraIndex === 0
-                    ? "bg-stone-800 bg-opacity-30 rounded-l"
-                    : ""
-                }`}
-              >
-                {/* Camera name section */}
-                <div className="w-48 flex items-center space-x-2 px-4 text-sm text-white">
-                  <Cctv className="w-4 h-4 text-white" />
-                  <span>{camera}</span>
-                </div>
-
-                {/* Timeline section */}
-                <div
-                  className={`flex-1 relative ${
-                    cameraIndex === 0 ? "border-l border-amber-300/30" : ""
-                  }`}
-                >
-                  {/* Hour grid lines for this row - only for Camera-01 */}
-                  {/* {cameraIndex === 0 &&
-                    hours.map((hour) => (
-                      <div
-                        key={hour}
-                        className="absolute top-0 bottom-0 w-px bg-amber-700/20"
-                        style={{ left: `${(hour / 16) * 100}%` }}
-                      />
-                    ))} */}
-
-                  {/* Incident blocks for this camera with layered positioning */}
-                  {cameraIncidents.map((incident) => (
+          <div className="flex-1 p-4 border-t md:border-t-0 md:border-l border-amber-800/30">
+            <div className="relative mb-2">
+              <div className="flex justify-between text-xs text-white px-2 mb-1">
+                {hours.map((hour) => (
+                  <div key={hour} className="text-center min-w-0">
+                    {formatHour(hour)}
+                  </div>
+                ))}
+              </div>
+              <div className="relative h-2">
+                {hours.map((hour) => (
+                  <div key={hour}>
                     <div
-                      key={incident.id}
-                      className={`absolute rounded shadow-md transition-opacity hover:opacity-90 flex items-center justify-center space-x-1 px-2 py-1 text-xs font-medium text-white whitespace-nowrap ${
-                        incident.color
-                      } ${getLayerPosition(incident.layer)}`}
-                      style={{
-                        left: `${getIncidentPosition(
-                          incident.startHour,
-                          incident.startMinute
-                        )}%`,
-                        width: `${Math.max(
-                          getIncidentWidth(
-                            incident.startHour,
-                            incident.startMinute,
-                            incident.endHour,
-                            incident.endMinute
-                          ),
-                          8
-                        )}%`,
-                        backgroundColor: getIncidentColor(incident.type),
-                      }}
-                      title={`${incident.type} - ${incident.camera.name}`}
-                    >
-                      {getIncidentIcon(incident.type)}
-                      <span className="text-red-100 text-xs font-medium truncate px-1">
-                        {incident.type}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                      className="absolute top-0 w-px h-2 bg-white"
+                      style={{ left: `${(hour / 16) * 100}%` }}
+                    />
+                    {hour < 16 &&
+                      Array.from({ length: 4 }).map((_, i) => (
+                        <div
+                          key={`${hour}-${i}`}
+                          className="absolute top-0 w-px h-1 bg-white"
+                          style={{
+                            left: `${((hour + (i + 1) * 0.25) / 16) * 100}%`,
+                          }}
+                        />
+                      ))}
+                  </div>
+                ))}
               </div>
             </div>
-          );
-        })}
+            <div className="relative">
+              <div
+                className="absolute -top-6 transform -translate-x-1/2 text-black text-xs font-medium bg-yellow-400 rounded-lg p-1"
+                style={{ left: "20%" }}
+              >
+                03:12:37s
+              </div>
+              <div
+                className="absolute top-0 w-0.5 h-56 bg-yellow-400 z-20"
+                style={{ left: "20%" }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2 px-4 pb-4">
+          {cameras.map((camera, cameraIndex) => {
+            const cameraIncidents = createSampleIncidents(camera, cameraIndex);
+            return (
+              <div key={camera} className="flex flex-col md:flex-row">
+                <div
+                  className={`flex w-full h-14 relative overflow-hidden ${
+                    cameraIndex === 0
+                      ? "bg-stone-800 bg-opacity-30 rounded-l"
+                      : ""
+                  }`}
+                >
+                  <div className="md:w-48 w-full flex items-center space-x-2 px-4 text-sm text-white">
+                    <Cctv className="w-4 h-4 text-white" />
+                    <span>{camera}</span>
+                  </div>
+
+                  <div
+                    className={`flex-1 relative ${
+                      cameraIndex === 0 ? "border-l border-amber-300/30" : ""
+                    }`}
+                  >
+                    {cameraIncidents.map((incident) => (
+                      <div
+                        key={incident.id}
+                        className={`absolute rounded shadow-md transition-opacity hover:opacity-90 flex items-center justify-center space-x-1 px-2 py-1 text-xs font-medium text-white whitespace-nowrap ${
+                          incident.color
+                        } ${getLayerPosition(incident.layer)}`}
+                        style={{
+                          left: `${getIncidentPosition(
+                            incident.startHour,
+                            incident.startMinute
+                          )}%`,
+                          width: `${Math.max(
+                            getIncidentWidth(
+                              incident.startHour,
+                              incident.startMinute,
+                              incident.endHour,
+                              incident.endMinute
+                            ),
+                            8
+                          )}%`,
+                          backgroundColor: getIncidentColor(incident.type),
+                        }}
+                        title={`${incident.type} - ${incident.camera.name}`}
+                      >
+                        {getIncidentIcon(incident.type)}
+                        <span className="text-red-100 text-xs font-medium truncate px-1">
+                          {incident.type}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -19,23 +19,6 @@ import { useState, useEffect } from "react";
 import type { Incident } from "@/lib/types";
 import Image from "next/image";
 
-// const getIncidentColor = (type: string) => {
-//   switch (type) {
-//     case "Gun Threat":
-//       return "";
-//     case "Unauthorised Access":
-//       return "";
-//     case "Face Recognised":
-//       return "";
-//     case "Traffic Congestion":
-//       return "";
-//     case "Multiple Events":
-//       return "";
-//     default:
-//       return "";
-//   }
-// };
-
 const getIncidentIcon = (type: string) => {
   switch (type) {
     case "Gun Threat":
@@ -133,7 +116,7 @@ export function IncidentList() {
 
   if (loading) {
     return (
-      <div className="w-[40rem] bg-slate-900 border-l border-slate-700">
+      <div className="w-full md:w-[36rem] bg-slate-900 border-l border-slate-700">
         <div className="p-4">
           <div className="animate-pulse space-y-4">
             <div className="h-6 bg-slate-700 rounded w-3/4"></div>
@@ -149,13 +132,12 @@ export function IncidentList() {
   }
 
   return (
-    <div className="w-[40rem] bg-slate-950 border-l border-slate-700">
+    <div className="w-full md:w-[36rem] bg-slate-950 border-l border-slate-700">
       {/* Header */}
       <div className="p-4 border-b border-slate-800">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           {/* Left - Unresolved Count */}
           <div className="flex items-center space-x-3">
-            {/* < className="w-6 h-6 p-2 text-white bg-red-600 rounded-full flex items-center justify-center" /> */}
             <div className="w-7 h-7 bg-red-600 rounded-full flex items-center justify-center">
               <AlertTriangle className="w-4 h-4 text-white" />
             </div>
@@ -165,9 +147,9 @@ export function IncidentList() {
           </div>
 
           {/* Right - Icons and resolved count */}
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-3">
             {/* Round Icon Buttons */}
-            <div className="flex items-center">
+            <div className="flex space-x-2">
               <div className="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center">
                 <DoorOpen className="w-4 h-4 text-white" />
               </div>
@@ -180,7 +162,7 @@ export function IncidentList() {
             </div>
 
             {/* Glass effect resolved count */}
-            <div className="flex items-center space-x-1 px-1 rounded-full bg-sky-900/40 backdrop-blur-sm border border-sky-800">
+            <div className="flex items-center space-x-1 px-2 py-1 rounded-full bg-sky-900/40 backdrop-blur-sm border border-sky-800">
               <CheckCheck className="w-4 h-4 text-green-400" />
               <span className="text-blue-100 text-sm">
                 {resolvedCount} resolved incidents
@@ -191,7 +173,7 @@ export function IncidentList() {
       </div>
 
       {/* Incident List */}
-      <div className="h-96 overflow-y-auto">
+      <div className="h-[32rem] overflow-y-auto">
         {incidents.map((incident) => (
           <div
             key={incident.id}
@@ -199,9 +181,9 @@ export function IncidentList() {
               resolvingIds.has(incident.id) ? "opacity-50" : ""
             }`}
           >
-            <div className="flex items-start space-x-3">
+            <div className="flex flex-col sm:flex-row sm:items-start space-y-3 sm:space-y-0 sm:space-x-3">
               {/* Thumbnail */}
-              <div className="relative w-32 h-20 rounded overflow-hidden flex-shrink-0 bg-slate-800 border border-slate-600">
+              <div className="relative w-full sm:w-32 h-20 rounded overflow-hidden flex-shrink-0 bg-slate-800 border border-slate-600">
                 <Image
                   src={incident.thumbnailUrl || "/placeholder.svg"}
                   alt={`${incident.type} incident`}
